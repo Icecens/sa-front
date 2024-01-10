@@ -1,9 +1,12 @@
 <template>
   <page-header-wrapper>
     <a-card :bordered="false">
+
       <div class="table-page-search-wrapper">
         <a-form layout="inline">
           <a-row :gutter="48">
+
+<!--            搜索栏 -->
             <a-col :md="8" :sm="24">
               <a-form-item label="规则编号">
                 <a-input v-model="queryParam.id" placeholder=""/>
@@ -18,7 +21,9 @@
                 </a-select>
               </a-form-item>
             </a-col>
+
             <template v-if="advanced">
+
               <a-col :md="8" :sm="24">
                 <a-form-item label="调用次数">
                   <a-input-number v-model="queryParam.callNo" style="width: 100%"/>
@@ -47,7 +52,9 @@
                   </a-select>
                 </a-form-item>
               </a-col>
+
             </template>
+
             <a-col :md="!advanced && 8 || 24" :sm="24">
               <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
@@ -86,12 +93,15 @@
         :rowSelection="rowSelection"
         showPagination="auto"
       >
+
         <span slot="serial" slot-scope="text, record, index">
           {{ index + 1 }}
         </span>
+
         <span slot="status" slot-scope="text">
           <a-badge :status="text | statusTypeFilter" :text="text | statusFilter" />
         </span>
+
         <span slot="description" slot-scope="text">
           <ellipsis :length="4" tooltip>{{ text }}</ellipsis>
         </span>
@@ -103,6 +113,7 @@
             <a @click="handleSub(record)">订阅报警</a>
           </template>
         </span>
+
       </s-table>
 
       <create-form
@@ -127,13 +138,55 @@ import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
 
 const columns = [
+  // {
+  //   title: '#',
+  //   scopedSlots: { customRender: 'serial' }
+  // },
+  // {
+  //   title: '规则编号',
+  //   dataIndex: 'no'
+  // },
+  // {
+  //   title: '描述',
+  //   dataIndex: 'description',
+  //   scopedSlots: { customRender: 'description' }
+  // },
+  // {
+  //   title: '服务调用次数',
+  //   dataIndex: 'callNo',
+  //   sorter: true,
+  //   needTotal: true,
+  //   customRender: (text) => text + ' 次'
+  // },
+  // {
+  //   title: '状态',
+  //   dataIndex: 'status',
+  //   scopedSlots: { customRender: 'status' }
+  // },
+  // {
+  //   title: '导入时间',
+  //   dataIndex: 'updatedAt',
+  //   sorter: true
+  // },
+  // {
+  //   title: '操作',
+  //   dataIndex: 'action',
+  //   width: '150px',
+  //   scopedSlots: { customRender: 'action' }
+  // }
   {
     title: '#',
     scopedSlots: { customRender: 'serial' }
   },
   {
-    title: '规则编号',
-    dataIndex: 'no'
+    title: '态势名称',
+    dataIndex: 'name',
+    scopedSlots: { customRender: 'name' }
+  },
+  {
+    title: '态势类别',
+    dataIndex: 'category',
+    scopedSlots: { customRender: 'category' }
   },
   {
     title: '描述',
@@ -153,7 +206,7 @@ const columns = [
     scopedSlots: { customRender: 'status' }
   },
   {
-    title: '更新时间',
+    title: '导入时间',
     dataIndex: 'updatedAt',
     sorter: true
   },
