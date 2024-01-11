@@ -83,6 +83,7 @@
         </a-dropdown>
       </div>
 
+<!--      表格在这，好像只需要写有特殊规则的span-->
       <s-table
         ref="table"
         size="default"
@@ -132,7 +133,8 @@
 <script>
 import moment from 'moment'
 import { STable, Ellipsis } from '@/components'
-import { getRoleList, getServiceList } from '@/api/manage'
+import { getRoleList } from '@/api/manage'
+import { getSituList } from '@/api/tablesa'
 
 import StepByStepModal from './modules/StepByStepModal'
 import CreateForm from './modules/CreateForm'
@@ -189,26 +191,14 @@ const columns = [
     scopedSlots: { customRender: 'category' }
   },
   {
-    title: '描述',
+    title: '导入时间',
+    dataIndex: 'importedAt',
+    sorter: true
+  },
+  {
+    title: '态势描述',
     dataIndex: 'description',
     scopedSlots: { customRender: 'description' }
-  },
-  {
-    title: '服务调用次数',
-    dataIndex: 'callNo',
-    sorter: true,
-    needTotal: true,
-    customRender: (text) => text + ' 次'
-  },
-  {
-    title: '状态',
-    dataIndex: 'status',
-    scopedSlots: { customRender: 'status' }
-  },
-  {
-    title: '导入时间',
-    dataIndex: 'updatedAt',
-    sorter: true
   },
   {
     title: '操作',
@@ -260,7 +250,7 @@ export default {
       loadData: parameter => {
         const requestParameters = Object.assign({}, parameter, this.queryParam)
         console.log('loadData request parameters:', requestParameters)
-        return getServiceList(requestParameters)
+        return getSituList(requestParameters)
           .then(res => {
             return res.result
           })
